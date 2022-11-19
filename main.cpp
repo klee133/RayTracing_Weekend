@@ -8,8 +8,10 @@ int main()
     int nx = 200;
     int ny = 100;
 
+    ofstream myfile;
+    myfile.open("/Users/admin/RayTracing_Weekend/ColorTest.ppm");
 
-    cout << "P3\n" << nx << " " << ny << "\n255\n";
+    myfile << "P3\n" << nx << " " << ny << "\n255\n";
 
     for(int j = ny-1; j >= 0; j--){
         for(int i = 0; i < nx; i++){
@@ -21,9 +23,11 @@ int main()
             int ig = int(255.99*g);
             int ib = int(255.99*b);
 
-            cout << ir << " " << ig << " " << ib << "\n";
+            myfile << ir << " " << ig << " " << ib << "\n";
         }
     }
+
+    myfile.close();
 
 	return 0;
 }
