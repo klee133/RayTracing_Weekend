@@ -16,9 +16,9 @@ int main()
 
     myfile << "P3\n" << nx << " " << ny << "\n255\n";
 
-    int ir = 0;
+    int ir = 250;
     int ig = 250;
-    int ib = 0;
+    int ib = 250;
 
     for(int j = ny-1; j >= 0; j--){
         for(int i = 0; i < nx; i++){
@@ -31,27 +31,16 @@ int main()
 
             if(i < nx / 2){
                 if(j >= ny - (int)((i+1)*halfSlope)){
-                    myfile << ir << " " << ig << " " << ib << "\n";
-                    //cout << "IF --- j: " << j << ", i: " << i << ", (int)(i*slope) = "
-                      //   << (int)(i*slope) << "\t(int)((i+1)*slope) = " <<
-                        //    (int)((i+1)*slope) << endl;
+                    myfile << "0 " << ig << " 0\n";
                 }else{
-                    myfile << ir << " 0 " << ib << "\n";
-                    //cout << "--- ELSE --- j: " << j << ", i: " << i << ", (int)(i*slope) = "
-                      //   << (int)(i*slope) << "\t(int)((i+1)*slope) = " <<
-                        //    (int)((i+1)*slope) << endl;
+                    myfile << ir << " 0 " << "0\n";
                 }
             }else{
                 if(j >= ((int)((i+1)*halfSlope)) - ny){
-                    myfile << ir << " " << ig << " " << ib << "\n";
-                    //cout << "IF --- j: " << j << ", i: " << i << ", (int)(i*slope) = "
-                      //   << (int)(i*slope) << "\t(int)((i+1)*slope) = " <<
-                        //    (int)((i+1)*slope) << endl;
+                    myfile << "0 " << ig << " 0\n";
                 }else{
-                    myfile << ir << " 0 " << ib << "\n";
-                    //cout << "--- ELSE --- j: " << j << ", i: " << i << ", (int)(i*slope) = "
-                      //   << (int)(i*slope) << "\t(int)((i+1)*slope) = " <<
-                        //    (int)((i+1)*slope) << endl;
+                    myfile << "0 " << "0 " << ib << "\n";
+
                 }
 
             }
