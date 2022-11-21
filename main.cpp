@@ -7,9 +7,9 @@ int main()
 {
     int nx = 500;
     int ny = 350;
-    float slope = (float)ny/(float)nx;
+    float halfSlope = (float)ny/((float)nx / 2);
 
-    cout << slope << endl;
+    //cout << slope << endl;
 
     ofstream myfile;
     myfile.open("/Users/admin/RayTracing_Weekend/ColorTest.ppm");
@@ -29,18 +29,31 @@ int main()
           */
 
 
-
-            if(j == (int)(i*slope)
-                    || j == (int)((i+1)*slope)){
-                myfile << ir << " " << ig << " " << ib << "\n";
-                //cout << "IF --- j: " << j << ", i: " << i << ", (int)(i*slope) = "
-                  //   << (int)(i*slope) << "\t(int)((i+1)*slope) = " <<
-                    //    (int)((i+1)*slope) << endl;
+            if(i < nx / 2){
+                if(j >= ny - (int)((i+1)*halfSlope)){
+                    myfile << ir << " " << ig << " " << ib << "\n";
+                    //cout << "IF --- j: " << j << ", i: " << i << ", (int)(i*slope) = "
+                      //   << (int)(i*slope) << "\t(int)((i+1)*slope) = " <<
+                        //    (int)((i+1)*slope) << endl;
+                }else{
+                    myfile << ir << " 0 " << ib << "\n";
+                    //cout << "--- ELSE --- j: " << j << ", i: " << i << ", (int)(i*slope) = "
+                      //   << (int)(i*slope) << "\t(int)((i+1)*slope) = " <<
+                        //    (int)((i+1)*slope) << endl;
+                }
             }else{
-                myfile << ir << " 0 " << ib << "\n";
-                //cout << "--- ELSE --- j: " << j << ", i: " << i << ", (int)(i*slope) = "
-                  //   << (int)(i*slope) << "\t(int)((i+1)*slope) = " <<
-                    //    (int)((i+1)*slope) << endl;
+                if(j >= ((int)((i+1)*halfSlope)) - ny){
+                    myfile << ir << " " << ig << " " << ib << "\n";
+                    //cout << "IF --- j: " << j << ", i: " << i << ", (int)(i*slope) = "
+                      //   << (int)(i*slope) << "\t(int)((i+1)*slope) = " <<
+                        //    (int)((i+1)*slope) << endl;
+                }else{
+                    myfile << ir << " 0 " << ib << "\n";
+                    //cout << "--- ELSE --- j: " << j << ", i: " << i << ", (int)(i*slope) = "
+                      //   << (int)(i*slope) << "\t(int)((i+1)*slope) = " <<
+                        //    (int)((i+1)*slope) << endl;
+                }
+
             }
 
         }
