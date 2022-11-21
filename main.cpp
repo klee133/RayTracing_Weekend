@@ -30,21 +30,17 @@ int main()
 
 
 
-            if((float)j <= (float)ny - (float)i*slope
-                    && j >= (float)ny - ((float)(i+1)*slope)){
+            if(j == (int)(i*slope)
+                    || j == (int)((i+1)*slope)){
                 myfile << ir << " " << ig << " " << ib << "\n";
-                /*cout << "IF --- j: " << j << ", i: " << i << ", ny-slope*i = "
-                     << (float)ny - (float)i*slope << "\tny-slope*i+1 = " <<
-                        (float)ny - ((float)(i+1)*slope) << "\nj <= " <<
-                        ((float)j <= (float)ny - (float)i*slope) << "\tj >= " <<
-                        ((float)j >= (float)ny - (float)i*slope) << endl;*/
+                //cout << "IF --- j: " << j << ", i: " << i << ", (int)(i*slope) = "
+                  //   << (int)(i*slope) << "\t(int)((i+1)*slope) = " <<
+                    //    (int)((i+1)*slope) << endl;
             }else{
                 myfile << ir << " 0 " << ib << "\n";
-                /*cout << "--- ELSE --- j: " << j << ", i: " << i << ", ny-slope*i = "
-                     << (float)ny - (float)i*slope << "\tny-slope*i+1 = " <<
-                        (float)ny - ((float)(i+1)*slope) << "\nj <= " <<
-                        ((float)j <= (float)ny - (float)i*slope) << "\tj >= " <<
-                        ((float)j >= (float)ny - (float)i*slope) << endl;*/
+                //cout << "--- ELSE --- j: " << j << ", i: " << i << ", (int)(i*slope) = "
+                  //   << (int)(i*slope) << "\t(int)((i+1)*slope) = " <<
+                    //    (int)((i+1)*slope) << endl;
             }
 
         }
@@ -63,16 +59,5 @@ int main()
 }
 
 /*
- *             cout << "j: " << j << ", i: " << i << ", slope*i = "
-                 << (float)i*slope << " ";
-                cout << "--- IF --- j: " << j << ", i: " << i << ", ny-slope*i = "
-                     << (float)ny - (float)i*slope;
-                cout << "--- ELSE --- j: " << j << ", i: " << i << ", ny-slope*i = "
-                     << (float)ny - (float)i*slope;
-            if(j < ny-1){
-                cout << "\tny-slope*i+1 = " << (float)ny - ((float)(i+1)*slope);
-            }
-            cout << endl;
-
  *
  */
