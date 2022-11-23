@@ -8,8 +8,7 @@ int main()
 {
     int nx = 500;
     int ny = 350;
-    float startColor = 0;
-    float colorRange = 255.99 - startColor;
+    float startColor = 100;
     float halfSlope = (float)ny/((float)nx / 2);
     // Amount of shift from halfslope for blended values
     float blendShift = (halfSlope) * (float(nx / 12));
@@ -28,32 +27,36 @@ int main()
     for(int j = ny; j >= 0; j--){
         for(int i = 0; i < nx; i++){
             // Initalize some values
-            float r = float(i) / float(nx/2);
+            /*float r = float(i) / float(nx/2);
             float g = float(1) - (float(j) / float(ny));
-            float b = float(1) - ((float(i)-float(nx/2)) / float(nx/2));
+            float b = float(1) - ((float(i)-float(nx/2)) / float(nx/2));*/
+            float r = (float(i)+startColor) / (float(nx/2)+255.99);
+            float g = float(1) - (float(j) + startColor) / ((float(ny)) + 255.99);
+            float b = float(1) - ((float(i)-float(nx/2)) + startColor) /
+                       ((float(nx/2)) + 255.99);
 
             int ir = 0;
             int ig = 0;
             int ib = 0;
 
             float lSlopeY = ny - (int)((i+1)*halfSlope);
-            float lxIn;
-            float lxOut;
+            // Find the range of x that Red and Green will be blended in
+            float lxIn = float(-1)*(float(j)-blendShift-ny)/float(halfSlope);
+            float lxOut = float(-1)*(float(j)+blendShift-ny)/float(halfSlope);
+            float lxDiff = lxIn - lxOut;
 
             float rSlopeY = (int)((i+1)*halfSlope) - ny;
-            float rxIn;
-            float rxOut;
+            // Find the range of x that Green and Blue will be blended in
+            float rxIn = (float(j)+blendShift+ny)/float(halfSlope);
+            float rxOut = (float(j)-blendShift+ny)/float(halfSlope);
+            float rxDiff = rxOut - rxIn;
 
             // We need sections for R, RG, G, GB, B, RGB
             // Red
             if(j <= lSlopeY - blendShift){
-                 ir = int(colorRange*r + startColor);
+                 ir = int(255.99*r);
             // Red and Green
             }else if(j <= lSlopeY + blendShift){
-                // Find the range of x that Red and Green will be blended in
-                lxIn = float(-1)*(float(j)-blendShift-ny)/float(halfSlope);
-                lxOut = float(-1)*(float(j)+blendShift-ny)/float(halfSlope);
-                float lxDiff = lxIn - lxOut;
                 // Divide the current color by the total x distance and multiply
                 // by the distance from the current x to the x at the start of blend
                 float r2 = r / (lxDiff) * (i - lxOut);
@@ -65,21 +68,17 @@ int main()
                 // closer to the end
                 r -= r2;
                 g -= g2;
-                ir = int(colorRange*r + startColor);
-                ig = int(colorRange*g + startColor);
+                ir = int(255.99*r);
+                ig = int(255.99*g);
             // Green
             }else if(j >= rSlopeY + blendShift){
-                ig = int(colorRange*g + startColor);
+                ig = int(255.99*g);
             }
 
             // Green, Blue
             // Separated if statement so that it can check for the section that
             // intersects with the Red/Green blended section
             if((j <= rSlopeY + blendShift) && (j >= rSlopeY - blendShift)){
-                // Find the range of x that Green and Blue will be blended in
-                rxIn = (float(j)+blendShift+ny)/float(halfSlope);
-                rxOut = (float(j)-blendShift+ny)/float(halfSlope);
-                float rxDiff = rxOut - rxIn;
                 // Divide the current color by the total x distance and multiply
                 // by the distance from the current x to the x at the start of blend
                 float g2 = g / (rxDiff) * (rxOut - i);
@@ -91,11 +90,11 @@ int main()
                 // closer to the end
                 g -= g2;
                 b -= b2;
-                ig = int(colorRange*g + startColor);
-                ib = int(colorRange*b + startColor);
+                ig = int(255.99*g);
+                ib = int(255.99*b);
             // Blue
             }else if(j <= rSlopeY - blendShift){
-                ib = int(colorRange*b + startColor);
+                ib = int(255.99*b);
             }
 
             // Red, Green, Blue
@@ -123,16 +122,13 @@ int main()
                 // Subtracts an increasingly larger amount from color as it gets
                 // closer to the end
                 g -= g2;
-                ig = int(colorRange*g + startColor);
+                ig = int(255.99*g);
             }
             myfile << ir << " " << ig << " " << ib << "\n";
         }
     }
     myfile.close();
 
-	return 0;
+    return 0;
 }
 
-/*
- *
- */
