@@ -5,10 +5,12 @@
 
 QT = core gui widgets
 
-HEADERS =
+HEADERS = \
+    vec3.h
 
 SOURCES = \
-   $$PWD/main.cpp
+   $$PWD/main.cpp \
+   vec3.cpp
 
 INCLUDEPATH =
 
