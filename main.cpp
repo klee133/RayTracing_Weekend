@@ -1,11 +1,39 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include "vec3.h"
 
 using namespace std;
 
 int main()
 {
+    int nx = 200;
+    int ny = 100;
+
+    ofstream myfile;
+    myfile.open("/Users/admin/RayTracing_Weekend/ColorTest.ppm");
+    myfile << "P3\n" << nx << " " << ny << "\n255\n";
+
+    for(int j = ny-1; j >= 0; j--){
+        for(int i = 0; i < nx; i++){
+            vec3 col(float(i) / float(nx), float(j) / float(ny), 0.2);
+            int ir = int(255.99*col[0]);
+            int ig = int(255.99*col[1]);
+            int ib = int(255.99*col[2]);
+
+            myfile << ir << " " << ig << " " << ib << "\n";
+        }
+    }
+}
+
+
+
+
+
+
+
+
+/*{
     int nx = 500;
     int ny = 350;
     float startColor = 100;
@@ -25,12 +53,12 @@ int main()
     myfile << "P3\n" << nx << " " << ny << "\n255\n";
 
     for(int j = ny; j >= 0; j--){
-        for(int i = 0; i < nx; i++){
+        for(int i = 0; i < nx; i++){*/
             // Initalize some values
             /*float r = float(i) / float(nx/2);
             float g = float(1) - (float(j) / float(ny));
             float b = float(1) - ((float(i)-float(nx/2)) / float(nx/2));*/
-            float r = (float(i)+startColor) / (float(nx/2)+255.99);
+    /*float r = (float(i)+startColor) / (float(nx/2)+255.99);
             float g = float(1) - (float(j) + startColor) / ((float(ny)) + 255.99);
             float b = float(1) - ((float(i)-float(nx/2)) + startColor) /
                        ((float(nx/2)) + 255.99);
@@ -130,4 +158,4 @@ int main()
     myfile.close();
 
     return 0;
-}
+}*/
