@@ -7,33 +7,6 @@ using namespace std;
 
 int main()
 {
-    int nx = 200;
-    int ny = 100;
-
-    ofstream myfile;
-    myfile.open("/Users/admin/RayTracing_Weekend/ColorTest.ppm");
-    myfile << "P3\n" << nx << " " << ny << "\n255\n";
-
-    for(int j = ny-1; j >= 0; j--){
-        for(int i = 0; i < nx; i++){
-            vec3 col(float(i) / float(nx), float(j) / float(ny), 0.2);
-            int ir = int(255.99*col[0]);
-            int ig = int(255.99*col[1]);
-            int ib = int(255.99*col[2]);
-
-            myfile << ir << " " << ig << " " << ib << "\n";
-        }
-    }
-}
-
-
-
-
-
-
-
-
-/*{
     int nx = 500;
     int ny = 350;
     float startColor = 100;
@@ -53,15 +26,16 @@ int main()
     myfile << "P3\n" << nx << " " << ny << "\n255\n";
 
     for(int j = ny; j >= 0; j--){
-        for(int i = 0; i < nx; i++){*/
+        for(int i = 0; i < nx; i++){
             // Initalize some values
             /*float r = float(i) / float(nx/2);
             float g = float(1) - (float(j) / float(ny));
             float b = float(1) - ((float(i)-float(nx/2)) / float(nx/2));*/
-    /*float r = (float(i)+startColor) / (float(nx/2)+255.99);
-            float g = float(1) - (float(j) + startColor) / ((float(ny)) + 255.99);
-            float b = float(1) - ((float(i)-float(nx/2)) + startColor) /
-                       ((float(nx/2)) + 255.99);
+            vec3 col(
+                (float(i)+startColor) / (float(nx/2)+255.99),
+                float(1) - ((float(j) + startColor) / (float(ny) + 255.99)),
+                float(1) - ((float(i)-float(nx/2) + startColor) / (float(nx/2) + 255.99))
+                );
 
             int ir = 0;
             int ig = 0;
@@ -82,25 +56,25 @@ int main()
             // We need sections for R, RG, G, GB, B, RGB
             // Red
             if(j <= lSlopeY - blendShift){
-                 ir = int(255.99*r);
+                 ir = int(255.99*col[0]);
             // Red and Green
             }else if(j <= lSlopeY + blendShift){
                 // Divide the current color by the total x distance and multiply
                 // by the distance from the current x to the x at the start of blend
-                float r2 = r / (lxDiff) * (i - lxOut);
-                float g2 = g / (lxDiff) * (lxIn - i);
+                float r2 = col[0] / (lxDiff) * (i - lxOut);
+                float g2 = col[1] / (lxDiff) * (lxIn - i);
                 // Adding a small number to ensure we are not accidentally going negative
-                r += float(0.01);
-                g += float(0.01);
+                col[0] += float(0.01);
+                col[1] += float(0.01);
                 // Subtracts an increasingly larger amount from color as it gets
                 // closer to the end
-                r -= r2;
-                g -= g2;
-                ir = int(255.99*r);
-                ig = int(255.99*g);
+                col[0] -= r2;
+                col[1] -= g2;
+                ir = int(255.99*col[0]);
+                ig = int(255.99*col[1]);
             // Green
             }else if(j >= rSlopeY + blendShift){
-                ig = int(255.99*g);
+                ig = int(255.99*col[1]);
             }
 
             // Green, Blue
@@ -109,20 +83,20 @@ int main()
             if((j <= rSlopeY + blendShift) && (j >= rSlopeY - blendShift)){
                 // Divide the current color by the total x distance and multiply
                 // by the distance from the current x to the x at the start of blend
-                float g2 = g / (rxDiff) * (rxOut - i);
-                float b2 = b / (rxDiff) * (i - rxIn);
+                float g2 = col[1] / (rxDiff) * (rxOut - i);
+                float b2 = col[2] / (rxDiff) * (i - rxIn);
                 // Adding a small number to ensure we are not accidentally going negative
-                g += float(0.01);
-                b += float(0.01);
+                col[1] += float(0.01);
+                col[2] += float(0.01);
                 // Subtracts an increasingly larger amount from color as it gets
                 // closer to the end
-                g -= g2;
-                b -= b2;
-                ig = int(255.99*g);
-                ib = int(255.99*b);
+                col[1] -= g2;
+                col[2] -= b2;
+                ig = int(255.99*col[1]);
+                ib = int(255.99*col[2]);
             // Blue
             }else if(j <= rSlopeY - blendShift){
-                ib = int(255.99*b);
+                ib = int(255.99*col[2]);
             }
 
             // Red, Green, Blue
@@ -143,14 +117,14 @@ int main()
                 // and the end of blended green, at current x
                 float dist = crossYIn - endY;
                 // Divide by total y and multiply by current y
-                float g2 = g / dist * (crossYIn - j);
+                float g2 = col[1] / dist * (crossYIn - j);
 
                 // Adding a small number to ensure we are not accidentally going negative
-                g += float(0.01);
+                col[1] += float(0.01);
                 // Subtracts an increasingly larger amount from color as it gets
                 // closer to the end
-                g -= g2;
-                ig = int(255.99*g);
+                col[1] -= g2;
+                ig = int(255.99*col[1]);
             }
             myfile << ir << " " << ig << " " << ib << "\n";
         }
@@ -158,4 +132,26 @@ int main()
     myfile.close();
 
     return 0;
-}*/
+}
+
+
+
+/*
+    int nx = 200;
+    int ny = 100;
+
+    ofstream myfile;
+    myfile.open("/Users/admin/RayTracing_Weekend/ColorTest.ppm");
+    myfile << "P3\n" << nx << " " << ny << "\n255\n";
+
+    for(int j = ny-1; j >= 0; j--){
+        for(int i = 0; i < nx; i++){
+            vec3 col(float(i) / float(nx), float(j) / float(ny), 0.2);
+            int ir = int(255.99*col[0]);
+            int ig = int(255.99*col[1]);
+            int ib = int(255.99*col[2]);
+
+            myfile << ir << " " << ig << " " << ib << "\n";
+        }
+    }
+ */
