@@ -9,8 +9,7 @@ HEADERS = \
     vec3.h
 
 SOURCES = \
-   $$PWD/main.cpp \
-   vec3.cpp
+   $$PWD/main.cpp
 
 INCLUDEPATH =
 
