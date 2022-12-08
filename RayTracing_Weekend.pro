@@ -6,6 +6,7 @@
 QT = core gui widgets
 
 HEADERS = \
+    ray.h \
     vec3.h
 
 SOURCES = \
