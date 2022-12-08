@@ -9,7 +9,20 @@ using namespace std;
 vec3 color(const ray& r) {
     vec3 unit_direction = unit_vector(r.direction());
     float t = 0.5 * (unit_direction.y() + 1.0);
-    return (1.0-t)*vec3(1.0, 1.0,1.0) + t*vec3(0.5,0.7,1.0);
+    float h = 0.5 * (unit_direction.x() + 1.0);
+    vec3 vert = (1.0-t)*vec3(1.0, 1.0,1.0) + t*vec3(0.0,1.0,0.0);
+    vec3 hori = vec3(0.0, 0.0, 0.0);
+    if(h < 0.5){
+        hori = (0.5-h)*2*vec3(1.0, 0.0,0.0) + h*2*vec3(1.0,1.0,1.0)
+                - (0.5-h)*2*t*vec3(1.0, 0.0,0.0);
+        vert -= t*(1.0-h*2)*vec3(0.0,1.0,0.0);
+    }else{
+        hori = (1.0-h)*2*vec3(1.0, 1.0,1.0) + (h-0.5)*2*vec3(0.0,0.0,1.0)
+                - (h-0.5)*2*t*vec3(0.0,0.0,1.0);
+        vert -= t*(h-0.5)*2*vec3(0.0,1.0,0.0);
+    }
+
+    return (vert + hori) / 2;
 }
 
 int main()
