@@ -6,7 +6,10 @@
 QT = core gui widgets
 
 HEADERS = \
+    hitable.h \
+    hitable_list.h \
     ray.h \
+    sphere.h \
     vec3.h
 
 SOURCES = \
