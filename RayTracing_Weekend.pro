@@ -6,6 +6,7 @@
 QT = core gui widgets
 
 HEADERS = \
+    camera.h \
     hitable.h \
     hitable_list.h \
     ray.h \
