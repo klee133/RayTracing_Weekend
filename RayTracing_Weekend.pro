@@ -9,6 +9,7 @@ HEADERS = \
     camera.h \
     hitable.h \
     hitable_list.h \
+    material.h \
     ray.h \
     sphere.h \
     vec3.h
