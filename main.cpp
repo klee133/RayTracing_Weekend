@@ -36,12 +36,13 @@ int main()
     myfile.open("/Users/admin/RayTracing_Weekend/ColorTest.ppm");
     myfile << "P3\n" << nx << " " << ny << "\n255\n";
 
-    hitable *list[4];
+    hitable *list[5];
     list[0] = new sphere(vec3(0,0,-1), 0.5, new lambertian(vec3(0.1,0.2,0.5)));
     list[1] = new sphere(vec3(0,-100.5,-1), 100, new lambertian(vec3(0.8,0.8,0.0)));
     list[2] = new sphere(vec3(1,0,-1), 0.5, new metal(vec3(0.8,0.6,0.2)));
     list[3] = new sphere(vec3(-1,0,-1), 0.5, new dielectric(1.5));
-    hitable *world = new hitable_list(list,4);
+    list[4] = new sphere(vec3(-1,0,-1), -0.45, new dielectric(1.5));
+    hitable *world = new hitable_list(list,5);
     camera cam;
 
     for(int j = ny-1; j >= 0; j--){
